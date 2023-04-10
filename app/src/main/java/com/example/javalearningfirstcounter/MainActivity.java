@@ -1,8 +1,10 @@
 package com.example.javalearningfirstcounter;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -14,11 +16,15 @@ public class MainActivity extends AppCompatActivity {
     private TextView textCount; //Поле вывода счетчика
     private Button button; //Кнопка счетчика
     private int count = 0;
+    private String TAG = "Жизненный цикл";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        inToast("0 - Создание активности");
+        Log.i(TAG, "onCreate()");
 
         //Получаем активити
         textCount = findViewById(R.id.textCount);
@@ -28,6 +34,73 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(listener);
 
     }
+
+
+    // Вывод сообщения
+    private void inToast(String text){
+        Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT); //инициализация сообщения
+        toast.show(); //показ сообщения
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        inToast("1 - Старт активности");
+        Log.i(TAG, "onStart()");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        inToast("2 - Возобновление активности");
+        Log.i(TAG, "onResume()");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        inToast("3 - Пауза активности");
+        Log.i(TAG, "onPause()");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        inToast("4 - Стоп активности");
+        Log.i(TAG, "onStop()");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        inToast("5 - Уничтожение активности");
+        Log.i(TAG, "onDestroy()");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        inToast("6 - Рестарт активности");
+        Log.i(TAG, "onRestart()");
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        inToast("7 - Сохранение активности");
+        super.onSaveInstanceState(outState);
+
+        //outState.putInt();
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        inToast("8 - Востановление активности");
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
 
     //Объект слушатеря нажатия кнопки
     private View.OnClickListener listener = new View.OnClickListener() {
@@ -39,46 +112,4 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    // Вывод сообщения
-    // Gravity.LEFT = 3
-    // Gravity.RIGHT = 5
-    // Gravity.TOP = 48
-    // Gravity.BOTTOM = 80
-
-    private void inToast(String text, int gravity){
-        int gravity1 = Gravity.BOTTOM; //3
-        Toast toast = Toast.makeText(this, "text", Toast.LENGTH_SHORT); //инициализация сообщения
-        toast.setGravity(gravity, 0, 0); //задание позиции на экране
-        toast.show(); //показ сообщения
-    }
-
-    @Override
-    protected void onStart() {
-        inToast("Старт активности", 0);
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        inToast("Стоп активности", 3);
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        inToast("Уничтожение активности", 80);
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onPause() {
-        inToast("Пауза активности", 48);
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        inToast("Возобновление активности", 0);
-        super.onResume();
-    }
 }
